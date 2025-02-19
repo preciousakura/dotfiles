@@ -1,0 +1,34 @@
+#!/bin/zsh
+
+time=$(date +"%Y-%m-%d_%H-%M-%S")
+
+grabarea() {
+    grim -g "$(slurp -b 1B1F28CC -c E06B74ff -s C778DD0D -w 2)" - | \
+    satty --filename - --output-filename ~/Pictures/Screenshots/Screenshot_$time.png --init-tool brush --copy-command wl-copy
+}
+
+shotwin() {
+    w_pos=$(hyprctl activewindow | awk '/at:/ {print $2}')
+    w_size=$(hyprctl activewindow | awk '/size:/ {gsub(",", "x", $2); print $2}')
+
+    if [[ -z "$w_pos" || -z "$w_size" ]]; then
+        echo "Erro: Não foi possível obter a posição ou tamanho da janela ativa."
+        exit 1
+    fi
+
+    grim -g "$w_pos $w_size" - | \
+    satty --filename - --output-filename ~/Pictures/Screenshots/Screenshot_$time.png --init-tool brush --copy-command wl-copy
+}
+
+case "$1" in
+  "grabarea")
+    grabarea
+    ;;
+  "shotwin")
+    shotwin
+    ;;
+  *)
+    echo "Uso: $0 {grabarea|shotwin}"
+    exit 1
+    ;;
+esac
