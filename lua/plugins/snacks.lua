@@ -22,14 +22,12 @@ return {
             --{ icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
             --{ icon = " ", key = "q", desc = "Quit", action = ":qa" },
           },
-          header = [[             (\(\   
-                                  / ..(   
-                              .-' ,_Y/   
-                            .'     (     
-                           /   \/  |     
-                          _|  _/| //     
-                        .',_\__)\_))     
-                        '----,)]],
+          header = [[
+    /\_/\
+   ( o.o )
+    > ^ <
+   /|   |\
+  (_|   |_)]],
         },
         formats = {
           key = function(item)

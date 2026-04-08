@@ -4,6 +4,17 @@ return {
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
     opts = {
+      ensure_installed = {
+        "python",
+        "typescript",
+        "tsx",
+        "javascript",
+        "json",
+        "html",
+        "css",
+        "clojure",
+        "lua",
+      },
       highlight = { enable = true },
       indent = { enable = true },
       config = function(_, opts)

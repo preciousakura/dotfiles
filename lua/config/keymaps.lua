@@ -18,7 +18,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "Hover documentation" }))
     map("n", "<leader>ca", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "Code action" }))
     map("n", "<leader>rn", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename symbol" }))
-    map("n", "<leader>cf", function() vim.lsp.buf.format({ async = true }) end, vim.tbl_extend("force", opts, { desc = "Format file" }))
+    map("n", "<leader>cf", function()
+      require("conform").format({ async = true, lsp_fallback = true })
+    end, vim.tbl_extend("force", opts, { desc = "Format file" }))
   end,
 })
 
@@ -60,11 +62,12 @@ end, { desc = 'open REPL' })
 
 -- Copilot
 map('n', '<leader>ct', function()
-  if vim.g.copilot_enabled == 1 then
-    vim.cmd('Copilot disable')
-    print("Copilot Off")
-  else
-    vim.cmd('Copilot enable')
+  local copilot_client = require("copilot.client")
+  if copilot_client.is_disabled() then
+    require("copilot.command").enable()
     print("Copilot On")
+  else
+    require("copilot.command").disable()
+    print("Copilot Off")
   end
 end, { desc = "Toggle GitHub Copilot" })
