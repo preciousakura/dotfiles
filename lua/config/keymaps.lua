@@ -24,6 +24,25 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
+-- Copy Paths
+map("n", "<leader>fpa", function()
+    local path = vim.fn.expand("%:p")
+    vim.fn.setreg("+", path)
+    vim.notify("Copied Absolute: " .. path)
+end, { desc = "Copy absolute path" })
+
+map("n", "<leader>fpr", function()
+    local path = vim.fn.expand("%")
+    vim.fn.setreg("+", path)
+    vim.notify("Copied Relative: " .. path)
+end, { desc = "Copy relative path" })
+
+map("n", "<leader>fpn", function()
+    local path = vim.fn.expand("%:t")
+    vim.fn.setreg("+", path)
+    vim.notify("Copied Filename: " .. path)
+end, { desc = "Copy filename" })
+
 -- Buffers
 map("n", "<leader>bN", "<cmd>enew<cr>", { desc = "new file (empty buffer)" })
 map("n", "<leader>bn", "<cmd>bnext<cr>", { desc = "Next buffer" })
@@ -41,6 +60,7 @@ map("n", "<leader>tp", "<cmd>tabprevious<cr>", { desc = "Previous tab" })
 map("n", "<leader>tc", "<cmd>tabclose<cr>", { desc = "Close tab" })
 
 -- Terminal
+map("t", "<Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 map("n", "<leader>tv", function()
   local width = math.floor(vim.o.columns * 0.3)
   vim.cmd("belowright " .. width .. "vsplit | terminal")
@@ -70,4 +90,4 @@ map('n', '<leader>ct', function()
     require("copilot.command").disable()
     print("Copilot Off")
   end
-end, { desc = "Toggle GitHub Copilot" })
+end, { desc = "Toggle Copilot" })
