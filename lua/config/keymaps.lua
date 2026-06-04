@@ -73,13 +73,6 @@ map("n", "<leader>th", function()
   vim.cmd("startinsert")
 end, { desc = "open terminal horizontal split" })
 
--- REPL
-map('n', '<leader>r', function()
-  local height = 12
-  vim.cmd("belowright " .. height .. "split | terminal lein repl")
-  vim.cmd("startinsert")
-end, { desc = 'open REPL' })
-
 -- Copilot
 map('n', '<leader>ct', function()
   local copilot_client = require("copilot.client")

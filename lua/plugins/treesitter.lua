@@ -12,7 +12,6 @@ return {
         "json",
         "html",
         "css",
-        "clojure",
         "lua",
       },
       highlight = { enable = true },
