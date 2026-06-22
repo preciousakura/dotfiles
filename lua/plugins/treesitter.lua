@@ -5,10 +5,6 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     opts = {
       ensure_installed = {
-        "python",
-        "typescript",
-        "tsx",
-        "javascript",
         "json",
         "html",
         "css",

@@ -13,7 +13,7 @@ return {
     dependencies = { "williamboman/mason.nvim" },
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "pyright", "ts_ls", "clojure_lsp" },
+        ensure_installed = { "clojure_lsp" },
         automatic_installation = true,
       })
     end,
@@ -25,9 +25,7 @@ return {
     config = function()
       require("mason-tool-installer").setup({
         ensure_installed = {
-          "black",
-          "prettier",
-          "eslint_d",
+          -- Add formatters/linters per branch (e.g. "black", "prettier", "eslint_d").
         },
       })
     end,
