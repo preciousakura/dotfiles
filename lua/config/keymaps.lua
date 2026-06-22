@@ -7,6 +7,37 @@ map("n", "<leader>q", "<cmd>q<cr>", { desc = "close window" })
 -- Yank
 map('n', '<leader>ya', ':%y+<CR>', { desc = "Copy entire content file" })
 
+-- Search & Replace
+local function replace_all(text, boundaries)
+  if not text or text == "" then return end
+  vim.ui.input({ prompt = "Replace all: ", default = text }, function(new_text)
+    if not new_text or new_text == "" then return end
+    local search = vim.fn.escape(text, [[/\.*$^~[]])
+    if boundaries then search = [[\<]] .. search .. [[\>]] end
+    local replace = vim.fn.escape(new_text, [[/\&~]])
+    vim.cmd(string.format([[%%s/%s/%s/g]], search, replace))
+  end)
+end
+
+-- Grab the visual selection as a single-line string (restores register "v")
+local function get_visual_selection()
+  local save_reg, save_type = vim.fn.getreg("v"), vim.fn.getregtype("v")
+  vim.cmd('noautocmd normal! "vy')
+  local sel = vim.fn.getreg("v"):gsub("\n", "")
+  vim.fn.setreg("v", save_reg, save_type)
+  return sel
+end
+
+-- Normal mode: word under the cursor
+map("n", "<leader>rw", function()
+  replace_all(vim.fn.expand("<cword>"), true)
+end, { desc = "Replace word under cursor (current file)" })
+
+-- Visual mode: the selected text
+map("x", "<leader>rw", function()
+  replace_all(get_visual_selection(), false)
+end, { desc = "Replace selection (current file)" })
+
 -- LSP
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
