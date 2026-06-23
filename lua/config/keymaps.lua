@@ -78,7 +78,18 @@ end, { desc = "Copy filename" })
 map("n", "<leader>bN", "<cmd>enew<cr>", { desc = "new file (empty buffer)" })
 map("n", "<leader>bn", "<cmd>bnext<cr>", { desc = "Next buffer" })
 map("n", "<leader>bp", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
-map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
+map("n", "<leader>bd", function()
+  local cur = vim.api.nvim_get_current_buf()
+  local alt = vim.fn.bufnr("#")
+  -- jump to the last-used buffer if it's still a real, listed file
+  if alt ~= -1 and vim.fn.buflisted(alt) == 1 then
+    vim.cmd("buffer #")
+  else
+    vim.cmd("bprevious")
+  end
+  -- close the buffer we just left, preserving the window/splits
+  Snacks.bufdelete(cur)
+end, { desc = "Close tab, open last used buffer" })
 
 -- Windows
 map("n", "<leader>wn", "<cmd>new<cr>",  { desc = "New empty horizontal split" })
